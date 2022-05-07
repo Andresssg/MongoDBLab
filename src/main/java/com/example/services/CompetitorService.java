@@ -13,10 +13,12 @@ import javax.annotation.PostConstruct;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import javax.persistence.TypedQuery;
 import javax.ws.rs.GET;
 import javax.ws.rs.OPTIONS;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
@@ -31,7 +33,7 @@ import org.json.simple.JSONObject;
 @Produces(MediaType.APPLICATION_JSON)
 public class CompetitorService {
 
-    @PersistenceContext(unitName = "AplicacionMundialPU")
+    @PersistenceContext(unitName = "mongoPU")
     EntityManager entityManager;
 
     @PostConstruct
@@ -46,16 +48,24 @@ public class CompetitorService {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public Response getAll() {
-
         Query q = entityManager.createQuery("select u from Competitor u order by u.surname ASC");
         List<Competitor> competitors = q.getResultList();
         return Response.status(200).header("Access-Control-Allow-Origin", "*").entity(competitors).build();
     }
 
+    @GET
+    @Path("{name}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getCompetitorsByName(@PathParam("name") String name) {
+        TypedQuery<Competitor> query = (TypedQuery<Competitor>) entityManager.createQuery("SELECT c FROM Competitor c WHERE c.name = :name");
+        List<Competitor> competitors = query.setParameter("name", name).getResultList();
+        return Response.status(200).header("Access-Control-Allow-Origin", "*").entity(competitors).build();
+    }
+
     @POST
+    @Path("/add")
     @Produces(MediaType.APPLICATION_JSON)
     public Response createCompetitor(CompetitorDTO competitor) {
-
         Competitor c = new Competitor();
         JSONObject rta = new JSONObject();
         c.setAddress(competitor.getAddress());
@@ -66,6 +76,7 @@ public class CompetitorService {
         c.setName(competitor.getName());
         c.setSurname(competitor.getSurname());
         c.setTelephone(competitor.getTelephone());
+        c.setVehicle(competitor.getVehicle());
 
         try {
             entityManager.getTransaction().begin();
@@ -80,12 +91,12 @@ public class CompetitorService {
             }
             c = null;
         } finally {
-        	entityManager.clear();
-        	entityManager.close();
+            entityManager.clear();
+            entityManager.close();
         }
         return Response.status(200).header("Access-Control-Allow-Origin", "*").entity(rta.toJSONString()).build();
     }
-    
+
     @OPTIONS
     public Response cors(@javax.ws.rs.core.Context HttpHeaders requestHeaders) {
         return Response.status(200).header("Access-Control-Allow-Origin", "*").header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS").header("Access-Control-Allow-Headers", "AUTHORIZATION, content-type, accept").build();
