@@ -6,21 +6,17 @@ package com.example.models;
 
 import com.sun.istack.NotNull;
 import java.io.Serializable;
-import java.sql.Date;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.xml.bind.annotation.XmlRootElement;
 import org.eclipse.persistence.nosql.annotations.DataFormatType;
-import org.eclipse.persistence.nosql.annotations.Field;
 import org.eclipse.persistence.nosql.annotations.NoSql;
 
 /**
@@ -44,10 +40,10 @@ public class Product implements Serializable {
 
     private String name;
     private String brand;
-    private Date purchaseDate;
+    private String purchaseDate;
 
     public Product() {
-
+        purchaseDate = new SimpleDateFormat("YYYY-MM-dd").format(Calendar.getInstance().getTime());
     }
 
     @PreUpdate
@@ -76,11 +72,11 @@ public class Product implements Serializable {
         this.brand = brand;
     }
 
-    public Date getPurchaseDate() {
+    public String getPurchaseDate() {
         return purchaseDate;
     }
 
-    public void setPurchaseDate(Date purchaseDate) {
+    public void setPurchaseDate(String purchaseDate) {
         this.purchaseDate = purchaseDate;
     }
 

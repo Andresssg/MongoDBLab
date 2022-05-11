@@ -8,6 +8,9 @@ package com.example.services;
 import com.example.PersistenceManager;
 import com.example.models.Competitor;
 import com.example.models.CompetitorDTO;
+import com.example.models.Product;
+import com.example.models.Vehicle;
+import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.persistence.EntityManager;
@@ -96,6 +99,20 @@ public class CompetitorService {
             entityManager.close();
         }
         return Response.status(200).header("Access-Control-Allow-Origin", "*").entity(rta.toJSONString()).build();
+    }
+
+    @GET
+    @Path("/products")
+    @Produces(MediaType.APPLICATION_JSON)
+    public List getProducts() {
+        
+        Query q = entityManager.createQuery("SELECT c FROM Competitor c");
+        List<Competitor> competitors = q.getResultList();
+        List<Product> products = new ArrayList();
+        for (int i = 0; i < competitors.size(); i++) {
+            products.add(competitors.get(i).getProduct());
+        }
+        return products;
     }
 
     @GET
