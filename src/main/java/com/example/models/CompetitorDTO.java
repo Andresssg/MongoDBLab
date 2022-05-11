@@ -30,6 +30,8 @@ public class CompetitorDTO {
     
     private Vehicle vehicle;
     
+    private Product product;
+    
     public CompetitorDTO(){
         
     }
@@ -104,6 +106,14 @@ public class CompetitorDTO {
 
     public void setVehicle(Vehicle vehicle) {
         this.vehicle = vehicle;
+    }
+
+    public Product getProduct() {
+        return product;
+    }
+
+    public void setProduct(Product product) {
+        this.product = product;
     }
     
 }

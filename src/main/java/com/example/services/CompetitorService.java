@@ -77,6 +77,7 @@ public class CompetitorService {
         c.setSurname(competitor.getSurname());
         c.setTelephone(competitor.getTelephone());
         c.setVehicle(competitor.getVehicle());
+        c.setProduct(competitor.getProduct());
 
         try {
             entityManager.getTransaction().begin();

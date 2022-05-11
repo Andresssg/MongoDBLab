@@ -12,7 +12,6 @@ import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
@@ -69,6 +68,9 @@ public class Competitor implements Serializable {
     //
     @Embedded
     private Vehicle vehicle;
+
+    @Embedded
+    private Product product;
 
     public Competitor() {
 
@@ -170,6 +172,14 @@ public class Competitor implements Serializable {
 
     public void setVehicle(Vehicle vehicle) {
         this.vehicle = vehicle;
+    }
+
+    public Product getProduct() {
+        return product;
+    }
+
+    public void setProduct(Product product) {
+        this.product = product;
     }
 
 }

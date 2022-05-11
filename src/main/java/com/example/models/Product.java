@@ -5,15 +5,22 @@
 package com.example.models;
 
 import com.sun.istack.NotNull;
+import java.io.Serializable;
+import java.sql.Date;
 import java.util.Calendar;
+
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.xml.bind.annotation.XmlRootElement;
 import org.eclipse.persistence.nosql.annotations.DataFormatType;
+import org.eclipse.persistence.nosql.annotations.Field;
 import org.eclipse.persistence.nosql.annotations.NoSql;
 
 /**
@@ -23,11 +30,7 @@ import org.eclipse.persistence.nosql.annotations.NoSql;
 @NoSql(dataFormat = DataFormatType.MAPPED)
 @Embeddable
 @XmlRootElement
-public class Vehicle {
-
-    private String plate;
-    private String brand;
-    private int modelYear;
+public class Product implements Serializable {
 
     @NotNull
     @Column(name = "create_at", updatable = false)
@@ -39,7 +42,11 @@ public class Vehicle {
     @Temporal(TemporalType.DATE)
     private Calendar updatedAt;
 
-    public Vehicle() {
+    private String name;
+    private String brand;
+    private Date purchaseDate;
+
+    public Product() {
 
     }
 
@@ -53,12 +60,12 @@ public class Vehicle {
         this.createdAt = this.updatedAt = Calendar.getInstance();
     }
 
-    public String getPlate() {
-        return plate;
+    public String getName() {
+        return name;
     }
 
-    public void setPlate(String plate) {
-        this.plate = plate;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getBrand() {
@@ -69,12 +76,12 @@ public class Vehicle {
         this.brand = brand;
     }
 
-    public int getModelYear() {
-        return modelYear;
+    public Date getPurchaseDate() {
+        return purchaseDate;
     }
 
-    public void setModelYear(int modelYear) {
-        this.modelYear = modelYear;
+    public void setPurchaseDate(Date purchaseDate) {
+        this.purchaseDate = purchaseDate;
     }
 
 }
