@@ -9,7 +9,6 @@ import com.example.PersistenceManager;
 import com.example.models.Competitor;
 import com.example.models.CompetitorDTO;
 import com.example.models.Product;
-import com.example.models.Vehicle;
 import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
